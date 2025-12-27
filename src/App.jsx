@@ -131,7 +131,7 @@ function MemoryRoom() {
           filter: 'brightness(0.65) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
           cursor: 'pointer',
         }}
-        onClick={() => window.open('/letterboxd', '_blank')}
+        onClick={() => window.open(`${import.meta.env.BASE_URL}letterboxd`, '_blank')}
       />
       {/* Letter: near bottom middle on coffee table to left */}
       <img
