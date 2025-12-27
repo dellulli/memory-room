@@ -387,6 +387,23 @@ export default function Letterboxd() {
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [popupIdx, marianneImages.length]);
+
+  // Stop any playing media when the popup closes
+  React.useEffect(() => {
+    if (popupIdx !== null) return;
+    document.querySelectorAll('.lb-video').forEach(video => {
+      try {
+        video.pause();
+        video.currentTime = 0;
+      } catch (_) {
+        // ignore if video is gone
+      }
+    });
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  }, [popupIdx, galleryMode]);
   return (
     <>
       <div style={{
@@ -1175,6 +1192,7 @@ export default function Letterboxd() {
                 ) : (
                   galleryType === 'roblox' ? (
                     <video
+                      className="lb-video"
                       src={`${ASSET_BASE}/Letterboxd/roblox/roblox_videos/${item.name}`}
                       style={{
                         maxWidth: '100%',
@@ -1187,6 +1205,7 @@ export default function Letterboxd() {
                     />
                   ) : (
                     <video
+                      className="lb-video"
                       src={`${ASSET_BASE}/Letterboxd/whiteboard/whiteboard_videos/${item.name}`}
                       style={{
                         maxWidth: '100%',
@@ -1359,6 +1378,7 @@ export default function Letterboxd() {
                   } else {
                     return (
                       <video
+                        className="lb-video"
                         src={`${ASSET_BASE}/Letterboxd/roblox/roblox_videos/${item.name}`}
                         style={{
                           maxWidth: 'min(90vw, 700px)',
@@ -1403,6 +1423,7 @@ export default function Letterboxd() {
                   } else {
                     return (
                       <video
+                        className="lb-video"
                         src={`${ASSET_BASE}/Letterboxd/whiteboard/whiteboard_videos/${item.name}`}
                         style={{
                           maxWidth: 'min(90vw, 700px)',
