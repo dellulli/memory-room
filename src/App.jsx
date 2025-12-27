@@ -118,7 +118,7 @@ function MemoryRoom() {
           filter: 'brightness(0.57) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
           cursor: 'pointer',
         }}
-        onClick={() => window.open(`${import.meta.env.BASE_URL}chatbot`, '_self')}
+        onClick={() => window.open(`${import.meta.env.BASE_URL}chatbot`, '_blank')}
       />
       {/* Laptop: right of desk at bottom */}
       <img
