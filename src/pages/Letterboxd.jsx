@@ -145,10 +145,10 @@ function Reviews() {
         <div key={i}>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 28 }}>
             <img
-              src={`/src/assets/Letterboxd/Review_Movie_Posters/${r.poster}`}
+              src={`/assets/Letterboxd/Review_Movie_Posters/${r.poster}`}
               alt={r.title}
               style={{ width: 80, borderRadius: 8, cursor: 'pointer', boxShadow: '0 2px 8px #232728' }}
-              onClick={() => setModalPoster(`/src/assets/Letterboxd/Review_Movie_Posters/${r.poster}`)}
+              onClick={() => setModalPoster(`/assets/Letterboxd/Review_Movie_Posters/${r.poster}`)}
             />
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 700, fontSize: 20, color: '#fff', marginBottom: 2 }}>
@@ -173,7 +173,7 @@ function Reviews() {
 />
 
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 8 }}>
-                <img src={`/src/assets/Letterboxd/${r.userPfp}`} alt={`${r.user} pfp`} style={{ width: 28, height: 28, borderRadius: '50%', border: '1px solid #888', objectFit: 'cover', background: '#232728' }} />
+                <img src={`/assets/Letterboxd/${r.userPfp}`} alt={`${r.user} pfp`} style={{ width: 28, height: 28, borderRadius: '50%', border: '1px solid #888', objectFit: 'cover', background: '#232728' }} />
                 <span style={{ color: '#abb7c2', fontSize: 15 }}>
                   by <a href={r.userUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#abb7c2', fontWeight: 700, textDecoration: 'none', cursor: 'pointer' }}>{r.user}</a>
                 </span>
@@ -303,10 +303,10 @@ function Reviews() {
 }
 
 const FAV_MOVIES = [
-  { title: 'Poster1', poster: '/src/assets/Letterboxd/poster_1.png' },
-  { title: 'Poster2', poster: '/src/assets/Letterboxd/poster_2.png' },
-  { title: 'Poster3', poster: '/src/assets/Letterboxd/poster_3.png' },
-  { title: 'Poster4', poster: '/src/assets/Letterboxd/poster_4.png' },
+  { title: 'Poster1', poster: '/assets/Letterboxd/poster_1.png' },
+  { title: 'Poster2', poster: '/assets/Letterboxd/poster_2.png' },
+  { title: 'Poster3', poster: '/assets/Letterboxd/poster_3.png' },
+  { title: 'Poster4', poster: '/assets/Letterboxd/poster_4.png' },
 ];
 
 export default function Letterboxd() {
@@ -415,8 +415,8 @@ export default function Letterboxd() {
         )}
         {/* Header with logo and killbill image */}
         <div style={{ position: 'relative', height: 120, background: '#202425', display: 'flex', alignItems: 'center', padding: '0 2rem', borderBottom: '1px solid #222', width: '100vw', overflow: 'hidden' }}>
-          <img src="/src/assets/Letterboxd/header.png" alt="Header" style={{ position: 'absolute', left: 0, top: 0, height: 120, opacity: 0.18, zIndex: 0, objectFit: 'cover', width: '100vw', minWidth: '100vw', pointerEvents: 'none' }} />
-          <img src="/src/assets/Letterboxd/Letterboxd_logo.png" alt="Letterboxd Logo" style={{ height: 40, marginRight: 14, zIndex: 1 }} />
+          <img src="/assets/Letterboxd/header.png" alt="Header" style={{ position: 'absolute', left: 0, top: 0, height: 120, opacity: 0.18, zIndex: 0, objectFit: 'cover', width: '100vw', minWidth: '100vw', pointerEvents: 'none' }} />
+          <img src="/assets/Letterboxd/Letterboxd_logo.png" alt="Letterboxd Logo" style={{ height: 40, marginRight: 14, zIndex: 1 }} />
           <span style={{ fontFamily: 'Inter, Arial, sans-serif', fontWeight: 700, fontSize: 32, color: '#d8e0e5', letterSpacing: 1, zIndex: 1 }}>Letterboxd</span>
         </div>
         {/* Only render rest of content if not in gallery mode */}
@@ -425,7 +425,7 @@ export default function Letterboxd() {
             {/* Profile row - hidden if poster view is not active */}
             {activePosterIdx === null && (
               <div style={{ display: 'flex', alignItems: 'center', gap: 32, padding: '2rem 2rem 1.5rem 2rem', maxWidth: 1100, margin: '0 auto' }}>
-                <img src="/src/assets/Letterboxd/letterboxd_pfp.jpg" alt="Profile" style={{ width: 100, height: 100, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
+                <img src="/assets/Letterboxd/letterboxd_pfp.jpg" alt="Profile" style={{ width: 100, height: 100, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 28, fontWeight: 700, marginBottom: 6 }}>P0op_Besties</div>
                   <div style={{ color: '#8f9ba6', fontSize: 16 }}>logging memories instead of movies</div>
@@ -641,7 +641,7 @@ export default function Letterboxd() {
                     <>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8, justifyContent: 'space-between', width: '100%' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                          <img src="/src/assets/Letterboxd/dellulli_pfp.png" alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
+                          <img src="/assets/Letterboxd/dellulli_pfp.png" alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
                           <span style={{ color: '#abb7c2', fontSize: 18 }}>Rewatched by <span style={{ fontWeight: 700 }}>dellulli</span></span>
                         </div>
                         <button
@@ -698,7 +698,7 @@ export default function Letterboxd() {
                     <>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8, justifyContent: 'space-between', width: '100%' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                          <img src="/src/assets/Letterboxd/marianne_pfp.png" alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
+                          <img src="/assets/Letterboxd/marianne_pfp.png" alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
                           <span style={{ color: '#abb7c2', fontSize: 18 }}>Rewatched by <span style={{ fontWeight: 700 }}>Maromaz12</span></span>
                         </div>
                         <button
@@ -740,7 +740,7 @@ export default function Letterboxd() {
                             <path d="M13.4142 7.58579C14.1953 8.36684 14.1953 9.63317 13.4142 10.4142" stroke="#92a1b4" strokeWidth="1.5" strokeLinecap="round"/>
                           </svg>
                         </span>
-                        <audio ref={audioRef} src="/src/assets/Letterboxd/marianne_killbill.mp3" preload="auto" />
+                        <audio ref={audioRef} src="/assets/Letterboxd/marianne_killbill.mp3" preload="auto" />
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
                         {[...Array(5)].map((_, i) => (
@@ -789,7 +789,7 @@ export default function Letterboxd() {
                   <>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8, justifyContent: 'space-between', width: '100%' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                        <img src="/src/assets/Letterboxd/dellulli_pfp.png" alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
+                        <img src="/assets/Letterboxd/dellulli_pfp.png" alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
                         <span style={{ color: '#abb7c2', fontSize: 18 }}>Rewatched by <span style={{ fontWeight: 700 }}>dellulli</span></span>
                       </div>
                       <button
@@ -847,7 +847,7 @@ export default function Letterboxd() {
                   <>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8, justifyContent: 'space-between', width: '100%' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                        <img src="/src/assets/Letterboxd/dellulli_pfp.png" alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
+                        <img src="/assets/Letterboxd/dellulli_pfp.png" alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
                         <span style={{ color: '#abb7c2', fontSize: 18 }}>Rewatched by <span style={{ fontWeight: 700 }}>dellulli</span></span>
                       </div>
                       <button
@@ -906,7 +906,7 @@ export default function Letterboxd() {
                   <>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8, justifyContent: 'space-between', width: '100%' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                        <img src="/src/assets/Letterboxd/dellulli_pfp.png" alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
+                        <img src="/assets/Letterboxd/dellulli_pfp.png" alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
                         <span style={{ color: '#abb7c2', fontSize: 18 }}>Rewatched by <span style={{ fontWeight: 700 }}>dellulli</span></span>
                       </div>
                       <button
@@ -992,7 +992,7 @@ export default function Letterboxd() {
         >
           {/* Header inside gallery overlay */}
           <div style={{ position: 'relative', height: 120, background: '#202425', display: 'flex', alignItems: 'center', padding: '0 2rem', borderBottom: '1px solid #222', width: '100vw', overflow: 'hidden', zIndex: 1002 }}>
-            <img src="/src/assets/Letterboxd/header.png" alt="Header" style={{ position: 'absolute', left: 0, top: 0, height: 120, opacity: 0.18, zIndex: 0, objectFit: 'cover', width: '100vw', minWidth: '100vw', pointerEvents: 'none' }} />
+            <img src="/assets/Letterboxd/header.png" alt="Header" style={{ position: 'absolute', left: 0, top: 0, height: 120, opacity: 0.18, zIndex: 0, objectFit: 'cover', width: '100vw', minWidth: '100vw', pointerEvents: 'none' }} />
             {/* Grain overlay on top of header only in gallery mode */}
             <div style={{
               position: 'absolute',
@@ -1007,7 +1007,7 @@ export default function Letterboxd() {
               opacity: 0.22,
               mixBlendMode: 'screen',
             }} />
-            <img src="/src/assets/Letterboxd/Letterboxd_logo.png" alt="Letterboxd Logo" style={{ height: 40, marginRight: 14, zIndex: 3 }} />
+            <img src="/assets/Letterboxd/Letterboxd_logo.png" alt="Letterboxd Logo" style={{ height: 40, marginRight: 14, zIndex: 3 }} />
             <span style={{ fontFamily: 'Inter, Arial, sans-serif', fontWeight: 700, fontSize: 32, color: '#d8e0e5', letterSpacing: 1, zIndex: 3 }}>Letterboxd</span>
           </div>
           {/* Grain overlay in gallery mode, covers header and background but not Back button */}
@@ -1132,7 +1132,7 @@ export default function Letterboxd() {
                 {item.type === 'image' ? (
                   galleryType === 'marianne' ? (
                     <img
-                      src={`/src/assets/Letterboxd/marianne/${item.name}`}
+                      src={`/assets/Letterboxd/marianne/${item.name}`}
                       alt={item.name}
                       style={{
                         maxWidth: '100%',
@@ -1145,7 +1145,7 @@ export default function Letterboxd() {
                     />
                   ) : galleryType === 'roblox' ? (
                     <img
-                      src={`/src/assets/Letterboxd/roblox/roblox_photos/${item.name}`}
+                      src={`/assets/Letterboxd/roblox/roblox_photos/${item.name}`}
                       alt={item.name}
                       style={{
                         maxWidth: '100%',
@@ -1158,7 +1158,7 @@ export default function Letterboxd() {
                     />
                   ) : (
                     <img
-                      src={`/src/assets/Letterboxd/whiteboard/whiteboard_photos/${item.name}`}
+                      src={`/assets/Letterboxd/whiteboard/whiteboard_photos/${item.name}`}
                       alt={item.name}
                       style={{
                         maxWidth: '100%',
@@ -1173,7 +1173,7 @@ export default function Letterboxd() {
                 ) : (
                   galleryType === 'roblox' ? (
                     <video
-                      src={`/src/assets/Letterboxd/roblox/roblox_videos/${item.name}`}
+                      src={`/assets/Letterboxd/roblox/roblox_videos/${item.name}`}
                       style={{
                         maxWidth: '100%',
                         maxHeight: '100%',
@@ -1185,7 +1185,7 @@ export default function Letterboxd() {
                     />
                   ) : (
                     <video
-                      src={`/src/assets/Letterboxd/whiteboard/whiteboard_videos/${item.name}`}
+                      src={`/assets/Letterboxd/whiteboard/whiteboard_videos/${item.name}`}
                       style={{
                         maxWidth: '100%',
                         maxHeight: '100%',
@@ -1319,7 +1319,7 @@ export default function Letterboxd() {
               {/* Enlarged image or video */}
               {galleryType === 'marianne' ? (
                 <img
-                  src={`/src/assets/Letterboxd/marianne/${marianneImages[popupIdx]}`}
+                  src={`/assets/Letterboxd/marianne/${marianneImages[popupIdx]}`}
                   alt={marianneImages[popupIdx]}
                   style={{
                     maxWidth: 'min(90vw, 700px)',
@@ -1339,7 +1339,7 @@ export default function Letterboxd() {
                   if (item.type === 'image') {
                     return (
                       <img
-                        src={`/src/assets/Letterboxd/roblox/roblox_photos/${item.name}`}
+                        src={`/assets/Letterboxd/roblox/roblox_photos/${item.name}`}
                         alt={item.name}
                         style={{
                           maxWidth: 'min(90vw, 700px)',
@@ -1357,7 +1357,7 @@ export default function Letterboxd() {
                   } else {
                     return (
                       <video
-                        src={`/src/assets/Letterboxd/roblox/roblox_videos/${item.name}`}
+                        src={`/assets/Letterboxd/roblox/roblox_videos/${item.name}`}
                         style={{
                           maxWidth: 'min(90vw, 700px)',
                           maxHeight: '80vh',
@@ -1383,7 +1383,7 @@ export default function Letterboxd() {
                     const folder = isHouse ? 'whiteboard_photos' : 'whiteboard_photos';
                     return (
                       <img
-                        src={`/src/assets/Letterboxd/whiteboard/${folder}/${item.name}`}
+                        src={`/assets/Letterboxd/whiteboard/${folder}/${item.name}`}
                         alt={item.name}
                         style={{
                           maxWidth: 'min(90vw, 700px)',
@@ -1401,7 +1401,7 @@ export default function Letterboxd() {
                   } else {
                     return (
                       <video
-                        src={`/src/assets/Letterboxd/whiteboard/whiteboard_videos/${item.name}`}
+                        src={`/assets/Letterboxd/whiteboard/whiteboard_videos/${item.name}`}
                         style={{
                           maxWidth: 'min(90vw, 700px)',
                           maxHeight: '80vh',

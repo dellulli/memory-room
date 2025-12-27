@@ -2,9 +2,17 @@
 import { useRef, useState, useEffect } from "react";
 import { Routes, Route } from 'react-router-dom';
 import Letterboxd from './pages/Letterboxd.jsx';
+import lampImg from './assets/main-page/lamp.png';
+import noLampImg from './assets/main-page/no_lamp.png';
+import feetFrameImg from './assets/main-page/objects/feet_frame.png';
+import thumbFrameImg from './assets/main-page/objects/thumb_frame.png';
+import booksImg from './assets/main-page/objects/books.png';
+import landlineImg from './assets/main-page/objects/landline.png';
+import laptopImg from './assets/main-page/objects/laptop.png';
+import letterImg from './assets/main-page/objects/letter.png';
+import vhsTapeImg from './assets/main-page/objects/vhs_tape.png';
+import lightSwitchSound from './assets/sounds/Light_Switch.mp3';
 
-const LAMP_SRC = "/src/assets/main-page/lamp.png";
-const NO_LAMP_SRC = "/src/assets/main-page/no_lamp.png";
 const LAMP_AREA = { x: 60, y: 140, width: 120, height: 130 };
 
 
@@ -41,7 +49,7 @@ function MemoryRoom() {
     <div className="w-screen h-screen relative overflow-hidden">
       {/* Background lamp image, covers entire viewport */}
       <img
-        src={lampOn ? LAMP_SRC : NO_LAMP_SRC}
+        src={lampOn ? lampImg : noLampImg}
         alt="Lamp"
         style={{
           position: 'absolute',
@@ -57,7 +65,7 @@ function MemoryRoom() {
       />
       {/* Feet Frame: placeholder position, adjust as needed */}
       <img
-        src="/src/assets/main-page/objects/feet_frame.png"
+        src={feetFrameImg}
         alt="Feet Frame"
         style={{
           position: 'absolute',
@@ -70,7 +78,7 @@ function MemoryRoom() {
       />
       {/* Thumb Frame: placeholder position, adjust as needed */}
       <img
-        src="/src/assets/main-page/objects/thumb_frame.png"
+        src={thumbFrameImg}
         alt="Thumb Frame"
         style={{
           position: 'absolute',
@@ -83,7 +91,7 @@ function MemoryRoom() {
       />
       {/* Books: under window on shelf (random for now) */}
       <img
-        src="/src/assets/main-page/objects/books.png"
+        src={booksImg}
         alt="Books"
         style={{
           position: 'absolute',
@@ -97,7 +105,7 @@ function MemoryRoom() {
       />
       {/* Landline: right of desk at bottom */}
       <img
-        src="/src/assets/main-page/objects/landline.png"
+        src={landlineImg}
         alt="Landline"
         style={{
           position: 'absolute',
@@ -111,7 +119,7 @@ function MemoryRoom() {
       />
       {/* Laptop: right of desk at bottom */}
       <img
-        src="/src/assets/main-page/objects/laptop.png"
+        src={laptopImg}
         alt="Laptop"
         style={{
           position: 'absolute',
@@ -127,7 +135,7 @@ function MemoryRoom() {
       />
       {/* Letter: near bottom middle on coffee table to left */}
       <img
-        src="/src/assets/main-page/objects/letter.png"
+        src={letterImg}
         alt="Letter"
         style={{
           position: 'absolute',
@@ -141,7 +149,7 @@ function MemoryRoom() {
       />
       {/* VHS tape: right of coffee table */}
       <img
-        src="/src/assets/main-page/objects/vhs_tape.png"
+        src={vhsTapeImg}
         alt="VHS Tape"
         style={{
           position: 'absolute',
@@ -153,7 +161,7 @@ function MemoryRoom() {
           filter: 'brightness(0.7) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
         }}
       />
-      <audio ref={audioRef} src="/src/assets/sounds/Light_Switch.mp3" preload="auto" />
+      <audio ref={audioRef} src={lightSwitchSound} preload="auto" />
     </div>
   );
 }
