@@ -2,6 +2,7 @@
 import { useRef, useState, useEffect } from "react";
 import { Routes, Route } from 'react-router-dom';
 import Letterboxd from './pages/Letterboxd.jsx';
+import Chatbot from './pages/Chatbot.jsx';
 import lampImg from './assets/main-page/lamp.png';
 import noLampImg from './assets/main-page/no_lamp.png';
 import feetFrameImg from './assets/main-page/objects/feet_frame.png';
@@ -115,7 +116,9 @@ function MemoryRoom() {
           transform: 'scale(3)',
           zIndex: 1,
           filter: 'brightness(0.57) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
+          cursor: 'pointer',
         }}
+        onClick={() => window.open(`${import.meta.env.BASE_URL}chatbot`, '_self')}
       />
       {/* Laptop: right of desk at bottom */}
       <img
@@ -170,6 +173,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/letterboxd" element={<Letterboxd />} />
+      <Route path="/chatbot" element={<Chatbot />} />
       <Route path="/*" element={<MemoryRoom />} />
     </Routes>
   );
