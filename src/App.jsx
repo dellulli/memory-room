@@ -11,6 +11,10 @@ import feetFrameImg from './assets/main-page/objects/feet_frame.png';
 import thumbFrameImg from './assets/main-page/objects/thumb_frame.png';
 import booksImg from './assets/main-page/objects/books.png';
 import landlineImg from './assets/main-page/objects/landline.png';
+import { landlineJiggleKeyframes } from './landlineJiggle.js';
+// Add landline and hello audio refs
+const landlineAudio = new window.Audio(`${import.meta.env.BASE_URL}assets/main-page/landline.mp3`);
+const helloAudio = new window.Audio(`${import.meta.env.BASE_URL}assets/main-page/hello.mp3`);
 import laptopImg from './assets/main-page/objects/laptop.png';
 import letterImg from './assets/main-page/objects/letter.png';
 import vhsTapeImg from './assets/main-page/objects/vhs_tape.png';
@@ -107,9 +111,37 @@ function MemoryRoom() {
         }}
       />
       {/* Landline: right of desk at bottom */}
+      <style>{landlineJiggleKeyframes + `\n@keyframes wave-bounce { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(2.2); } }`}</style>
+      {/* Sound waves overlay (conditionally rendered) */}
+      <div id="landline-waves" style={{
+        position: 'absolute',
+        left: '70%', // center above landline
+        top: '81%', // moved up
+        width: '40px',
+        height: '32px',
+        zIndex: 10,
+        display: 'none',
+        pointerEvents: 'none',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        gap: '6px',
+      }}>
+        {[0,1,2].map(i => (
+          <div key={i} style={{
+            width: 6,
+            height: 24,
+            background: '#65A65E',
+            borderRadius: 4,
+            transform: 'scaleY(1)',
+            animation: `wave-bounce 0.7s ${i*0.18}s infinite cubic-bezier(.68,-0.55,.27,1.55)`,
+            display: 'inline-block',
+          }} />
+        ))}
+      </div>
       <img
         src={landlineImg}
         alt="Landline"
+        id="landline-img"
         style={{
           position: 'absolute',
           left: '68.5%',
@@ -120,18 +152,27 @@ function MemoryRoom() {
           filter: 'brightness(0.57) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
           cursor: 'pointer',
         }}
-        onClick={() => {
-          const win = window.open(`${import.meta.env.BASE_URL}chatbot`, '_blank');
-          // Try to trigger music in the new window after it loads
-          if (win) {
-            win.onload = () => {
-              try {
-                if (win && win.playMusicFromParent) {
-                  win.playMusicFromParent();
-                }
-              } catch {}
-            };
+        onClick={async () => {
+          const landline = document.getElementById('landline-img');
+          if (!landline) return;
+          // Play audio 2x with pause, jiggle for each play
+          for (let i = 0; i < 2; i++) {
+            landlineAudio.currentTime = 0;
+            landline.style.animation = 'none';
+            void landline.offsetWidth;
+            landline.style.animation = `landline-jiggle 1s linear 1`;
+            await landlineAudio.play();
+            await new Promise(res => landlineAudio.onended = () => setTimeout(res, 1200));
+            landline.style.animation = '';
           }
+          // Show sound waves, play hello.mp3, then hide and open chatbot
+          const waves = document.getElementById('landline-waves');
+          if (waves) waves.style.display = 'flex';
+          helloAudio.currentTime = 0;
+          await helloAudio.play();
+          await new Promise(res => helloAudio.onended = res);
+          if (waves) waves.style.display = 'none';
+          window.open(`${import.meta.env.BASE_URL}chatbot`, '_blank');
         }}
       />
       {/* Laptop: right of desk at bottom */}
