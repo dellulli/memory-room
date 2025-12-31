@@ -3,6 +3,8 @@ import { useRef, useState, useEffect } from "react";
 import { Routes, Route } from 'react-router-dom';
 import Letterboxd from './pages/Letterboxd.jsx';
 import Chatbot from './pages/Chatbot.jsx';
+// For controlling Chatbot music from MemoryRoom
+const chatbotWindowRef = { current: null };
 import lampImg from './assets/main-page/lamp.png';
 import noLampImg from './assets/main-page/no_lamp.png';
 import feetFrameImg from './assets/main-page/objects/feet_frame.png';
@@ -118,7 +120,19 @@ function MemoryRoom() {
           filter: 'brightness(0.57) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
           cursor: 'pointer',
         }}
-        onClick={() => window.open(`${import.meta.env.BASE_URL}chatbot`, '_blank')}
+        onClick={() => {
+          const win = window.open(`${import.meta.env.BASE_URL}chatbot`, '_blank');
+          // Try to trigger music in the new window after it loads
+          if (win) {
+            win.onload = () => {
+              try {
+                if (win && win.playMusicFromParent) {
+                  win.playMusicFromParent();
+                }
+              } catch {}
+            };
+          }
+        }}
       />
       {/* Laptop: right of desk at bottom */}
       <img
@@ -170,10 +184,24 @@ function MemoryRoom() {
 }
 
 export default function App() {
+  // Expose a function for the new window to call to play music
+  useEffect(() => {
+    window.playMusicFromParent = () => {
+      // Try to find the Chatbot component and call playMusic
+      if (window.__chatbotRef && window.__chatbotRef.current && window.__chatbotRef.current.playMusic) {
+        window.__chatbotRef.current.playMusic();
+      }
+    };
+  }, []);
+  // Attach ref to Chatbot in /chatbot route
+  const chatbotRef = useRef();
+  useEffect(() => {
+    window.__chatbotRef = chatbotRef;
+  }, []);
   return (
     <Routes>
       <Route path="/letterboxd" element={<Letterboxd />} />
-      <Route path="/chatbot" element={<Chatbot />} />
+      <Route path="/chatbot" element={<Chatbot ref={chatbotRef} />} />
       <Route path="/*" element={<MemoryRoom />} />
     </Routes>
   );
