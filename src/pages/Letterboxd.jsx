@@ -661,7 +661,17 @@ export default function Letterboxd() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8, justifyContent: 'space-between', width: '100%' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                           <img src={`${ASSET_BASE}/Letterboxd/dellulli_pfp.png`} alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
-                          <span style={{ color: '#abb7c2', fontSize: 18 }}>Rewatched by <span style={{ fontWeight: 700 }}>dellulli</span></span>
+                          <span style={{ color: '#abb7c2', fontSize: 18 }}>
+                            Rewatched by
+                            <a
+                              href="https://letterboxd.com/dellulli/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ fontWeight: 700, color: '#abb7c2', textDecoration: 'none', marginLeft: 4, cursor: 'pointer' }}
+                            >
+                              dellulli
+                            </a>
+                          </span>
                         </div>
                         <button
                           style={{
@@ -718,7 +728,17 @@ export default function Letterboxd() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8, justifyContent: 'space-between', width: '100%' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                           <img src={`${ASSET_BASE}/Letterboxd/marianne_pfp.png`} alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
-                          <span style={{ color: '#abb7c2', fontSize: 18 }}>Rewatched by <span style={{ fontWeight: 700 }}>Maromaz12</span></span>
+                          <span style={{ color: '#abb7c2', fontSize: 18 }}>
+                            Rewatched by
+                            <a
+                              href="https://www.instagram.com/delulugirl123/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ fontWeight: 700, color: '#abb7c2', textDecoration: 'none', marginLeft: 4, cursor: 'pointer' }}
+                            >
+                              Maromaz12
+                            </a>
+                          </span>
                         </div>
                         <button
                           style={{
@@ -809,7 +829,17 @@ export default function Letterboxd() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8, justifyContent: 'space-between', width: '100%' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                         <img src={`${ASSET_BASE}/Letterboxd/dellulli_pfp.png`} alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
-                        <span style={{ color: '#abb7c2', fontSize: 18 }}>Rewatched by <span style={{ fontWeight: 700 }}>dellulli</span></span>
+                        <span style={{ color: '#abb7c2', fontSize: 18 }}>
+                          Rewatched by
+                          <a
+                            href="https://letterboxd.com/dellulli/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ fontWeight: 700, color: '#abb7c2', textDecoration: 'none', marginLeft: 4, cursor: 'pointer' }}
+                          >
+                            dellulli
+                          </a>
+                        </span>
                       </div>
                       <button
                         style={{
@@ -867,7 +897,17 @@ export default function Letterboxd() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8, justifyContent: 'space-between', width: '100%' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                         <img src={`${ASSET_BASE}/Letterboxd/dellulli_pfp.png`} alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
-                        <span style={{ color: '#abb7c2', fontSize: 18 }}>Rewatched by <span style={{ fontWeight: 700 }}>dellulli</span></span>
+                        <span style={{ color: '#abb7c2', fontSize: 18 }}>
+                          Rewatched by
+                          <a
+                            href="https://letterboxd.com/dellulli/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ fontWeight: 700, color: '#abb7c2', textDecoration: 'none', marginLeft: 4, cursor: 'pointer' }}
+                          >
+                            dellulli
+                          </a>
+                        </span>
                       </div>
                       <button
                         style={{
@@ -926,7 +966,17 @@ export default function Letterboxd() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8, justifyContent: 'space-between', width: '100%' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                         <img src={`${ASSET_BASE}/Letterboxd/dellulli_pfp.png`} alt="Profile" style={{ width: 48, height: 48, borderRadius: '50%', border: '1.2px solid #888', objectFit: 'cover', background: '#232728' }} />
-                        <span style={{ color: '#abb7c2', fontSize: 18 }}>Rewatched by <span style={{ fontWeight: 700 }}>dellulli</span></span>
+                        <span style={{ color: '#abb7c2', fontSize: 18 }}>
+                          Rewatched by
+                          <a
+                            href="https://letterboxd.com/dellulli/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ fontWeight: 700, color: '#abb7c2', textDecoration: 'none', marginLeft: 4, cursor: 'pointer' }}
+                          >
+                            dellulli
+                          </a>
+                        </span>
                       </div>
                       <button
                         style={{
