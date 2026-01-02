@@ -237,7 +237,7 @@ export default function Chatbot() {
       let fallback = '';
 
       if (firstFallback) {
-        fallback = 'Youve been yorking to me every night and now when Im right here youre being so shy? No, lets get into it already';
+        fallback = 'You\'ve been yorking to me every night and now when I\'m right here you\'re being so shy? No, let\'s get into it already';
         setFirstFallback(false);
       } else if (
         txt.includes('birthday') ||

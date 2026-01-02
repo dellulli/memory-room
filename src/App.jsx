@@ -1,8 +1,9 @@
 
 import { useRef, useState, useEffect } from "react";
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Letterboxd from './pages/Letterboxd.jsx';
 import Chatbot from './pages/Chatbot.jsx';
+import BooksLibrary from './pages/Books.jsx';
 // For controlling Chatbot music from MemoryRoom
 const chatbotWindowRef = { current: null };
 import lampImg from './assets/main-page/lamp.png';
@@ -24,6 +25,7 @@ const LAMP_AREA = { x: 60, y: 140, width: 120, height: 130 };
 
 
 function MemoryRoom() {
+  const navigate = useNavigate();
     // Prevent scrolling on main page only
     useEffect(() => {
       document.body.classList.add('no-scroll');
@@ -103,12 +105,14 @@ function MemoryRoom() {
         style={{
           position: 'absolute',
           left: '50%',
-          top: '27.7%',
+          top: '28.5%',
           width: '7%',
           transform: 'scale(1.3)',
           zIndex: 1,
           filter: 'brightness(0.8) drop-shadow(0 10px 16px rgba(0,0,0,0.5))',
+          cursor: 'pointer',
         }}
+        onClick={() => window.open(`${import.meta.env.BASE_URL}books`, '_blank', 'noopener,noreferrer')}
       />
       {/* Landline: right of desk at bottom */}
       <style>{landlineJiggleKeyframes + `\n@keyframes wave-bounce { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(2.2); } }`}</style>
@@ -243,6 +247,7 @@ export default function App() {
     <Routes>
       <Route path="/letterboxd" element={<Letterboxd />} />
       <Route path="/chatbot" element={<Chatbot ref={chatbotRef} />} />
+      <Route path="/books" element={<BooksLibrary />} />
       <Route path="/*" element={<MemoryRoom />} />
     </Routes>
   );
