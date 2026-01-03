@@ -4,13 +4,16 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Letterboxd from './pages/Letterboxd.jsx';
 import Chatbot from './pages/Chatbot.jsx';
 import BooksLibrary from './pages/Books.jsx';
+import VHSRoom from './pages/VHSRoom.jsx';
 // For controlling Chatbot music from MemoryRoom
 const chatbotWindowRef = { current: null };
 import lampImg from './assets/main-page/lamp.png';
 import noLampImg from './assets/main-page/no_lamp.png';
 import feetFrameImg from './assets/main-page/objects/feet_frame.png';
-import thumbFrameImg from './assets/main-page/objects/thumb_frame.png';
+import chairImg from './assets/main-page/objects/chair.png';
 import booksImg from './assets/main-page/objects/books.png';
+import bookshelfImg from './assets/main-page/objects/bookshelf.png';
+import bannerImg from './assets/main-page/objects/banner.png';
 import landlineImg from './assets/main-page/objects/landline.png';
 import { landlineJiggleKeyframes } from './landlineJiggle.js';
 // Add landline and hello audio refs
@@ -85,63 +88,65 @@ function MemoryRoom() {
           filter: 'brightness(0.8) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
         }}
       />
-      {/* Thumb Frame: placeholder position, adjust as needed */}
+      {/* Chair: same position and style */}
       <img
-        src={thumbFrameImg}
-        alt="Thumb Frame"
+        src={chairImg}
+        alt="Chair"
         style={{
           position: 'absolute',
-          left: '71.3%', // Adjust as needed
-          top: '19%',  // Adjust as needed
+          left: '73.4%', 
+          top: '55%',
           width: '7.5%',
+          transform: 'scale(3)',
           zIndex: 2,
-          filter: 'brightness(0.65) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
+          filter: 'none',
         }}
       />
-      {/* Books: under window on shelf (random for now) */}
+      {/* Banner: same position as books, behind bookshelf and books */}
+      <img
+        src={bannerImg}
+        alt="Banner"
+        style={{
+          position: 'absolute',
+          left: '45%',
+          top: '8%',
+          width: '7%',
+          transform: 'scale(6)',
+          zIndex: 0.5,
+          filter: 'brightness(0.9) drop-shadow(0 10px 16px rgba(0,0,0,0.3))',
+        }}
+      />
+      <img
+        src={bookshelfImg}
+        alt="Bookshelf"
+        style={{
+          position: 'absolute',
+          left: '67.7%',
+          top: '29%',
+          width: '7%',
+          transform: 'scale(2.3)',
+          zIndex: 1,
+          filter: 'brightness(0.7) drop-shadow(0 10px 16px rgba(0,0,0,0.5))',
+        }}
+      />
       <img
         src={booksImg}
         alt="Books"
         style={{
           position: 'absolute',
-          left: '50%',
-          top: '28.5%',
+          left: '66.4%',
+          top: '39%',
           width: '7%',
-          transform: 'scale(1.3)',
-          zIndex: 1,
-          filter: 'brightness(0.8) drop-shadow(0 10px 16px rgba(0,0,0,0.5))',
+          transform: 'scale(1.5)',
+          zIndex: 2,
+          filter: 'brightness(0.7) drop-shadow(0 10px 16px rgba(0,0,0,0.5))',
           cursor: 'pointer',
         }}
         onClick={() => window.open(`${import.meta.env.BASE_URL}books`, '_blank', 'noopener,noreferrer')}
       />
       {/* Landline: right of desk at bottom */}
       <style>{landlineJiggleKeyframes + `\n@keyframes wave-bounce { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(2.2); } }`}</style>
-      {/* Sound waves overlay (conditionally rendered) */}
-      <div id="landline-waves" style={{
-        position: 'absolute',
-        left: '70%', // center above landline
-        top: '81%', // moved up
-        width: '40px',
-        height: '32px',
-        zIndex: 10,
-        display: 'none',
-        pointerEvents: 'none',
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        gap: '6px',
-      }}>
-        {[0,1,2].map(i => (
-          <div key={i} style={{
-            width: 6,
-            height: 24,
-            background: '#65A65E',
-            borderRadius: 4,
-            transform: 'scaleY(1)',
-            animation: `wave-bounce 0.7s ${i*0.18}s infinite cubic-bezier(.68,-0.55,.27,1.55)`,
-            display: 'inline-block',
-          }} />
-        ))}
-      </div>
+      {/* Sound waves overlay removed as requested */}
       <img
         src={landlineImg}
         alt="Landline"
@@ -169,13 +174,7 @@ function MemoryRoom() {
             await new Promise(res => landlineAudio.onended = () => setTimeout(res, 1200));
             landline.style.animation = '';
           }
-          // Show sound waves, play hello.mp3, then hide and open chatbot
-          const waves = document.getElementById('landline-waves');
-          if (waves) waves.style.display = 'flex';
-          helloAudio.currentTime = 0;
-          await helloAudio.play();
-          await new Promise(res => helloAudio.onended = res);
-          if (waves) waves.style.display = 'none';
+          // After 2nd jiggle, open chatbot (no sound waves, no hello.mp3)
           window.open(`${import.meta.env.BASE_URL}chatbot`, '_blank');
         }}
       />
@@ -221,7 +220,9 @@ function MemoryRoom() {
           transform: 'scale(1.2)',
           zIndex: 1,
           filter: 'brightness(0.7) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
+          cursor: 'pointer',
         }}
+        onClick={() => window.open(`${import.meta.env.BASE_URL}vhs`, '_blank', 'noopener,noreferrer')}
       />
       <audio ref={audioRef} src={lightSwitchSound} preload="auto" />
     </div>
@@ -248,6 +249,7 @@ export default function App() {
       <Route path="/letterboxd" element={<Letterboxd />} />
       <Route path="/chatbot" element={<Chatbot ref={chatbotRef} />} />
       <Route path="/books" element={<BooksLibrary />} />
+      <Route path="/vhs" element={<VHSRoom />} />
       <Route path="/*" element={<MemoryRoom />} />
     </Routes>
   );
