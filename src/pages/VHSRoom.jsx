@@ -1,6 +1,9 @@
 import React, { useRef, useState } from "react";
 
-const bg = `${import.meta.env.BASE_URL}assets/VHS/light_room.png`;
+const lightRoomBg = `${import.meta.env.BASE_URL}assets/VHS/light_room.png`;
+const noLightRoomBg = `${import.meta.env.BASE_URL}assets/VHS/no_light_room.png`;
+const lightSwitchSound = `${import.meta.env.BASE_URL}assets/sounds/Light_Switch.mp3`;
+const scary1Audio = `${import.meta.env.BASE_URL}assets/VHS/scary1.mp3`;
 const vhsClosed = `${import.meta.env.BASE_URL}assets/VHS/close_vhs.png`;
 const vhsOpen = `${import.meta.env.BASE_URL}assets/VHS/open_vhs.png`;
 const vhsTapeInside = `${import.meta.env.BASE_URL}assets/VHS/tape_inside.png`;
@@ -8,10 +11,19 @@ const vhsClosed2 = `${import.meta.env.BASE_URL}assets/VHS/close_vhs_2.png`;
 const vhsSide = `${import.meta.env.BASE_URL}assets/VHS/vhs_tape.png`;
 const puttingInAudio = `${import.meta.env.BASE_URL}assets/VHS/putting_in.mp3`;
 const closingPortAudio = `${import.meta.env.BASE_URL}assets/VHS/closing_port.mp3`;
+const scary2Audio = `${import.meta.env.BASE_URL}assets/VHS/scary2.mp3`;
 
 export default function VHSRoom() {
+  const [lightOn, setLightOn] = useState(true);
+  const lightSwitchRef = useRef(null);
   const puttingInRef = useRef(null);
   const closingPortRef = useRef(null);
+  const scaryRef = useRef(null);
+  const scary2Ref = useRef(null);
+  const [showClosePort, setShowClosePort] = useState(false);
+  const [scaryStage, setScaryStage] = useState(0); // 0: none, 1: welcome, 2: age, 3: feed
+  const [overlayActive, setOverlayActive] = useState(true);
+  const [overlayFade, setOverlayFade] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [tapeInserted, setTapeInserted] = useState(false);
   const [tapeInsideClicked, setTapeInsideClicked] = useState(false);
@@ -19,6 +31,27 @@ export default function VHSRoom() {
   const [hoveringPort, setHoveringPort] = useState(false);
   const tapeRef = useRef(null);
   const tapeInsideRef = useRef(null);
+
+  // Handle overlay click to start experience
+  const handleOverlayClick = () => {
+    setOverlayFade(true);
+    setTimeout(() => {
+      setOverlayActive(false);
+      // Wait a tick to ensure overlay is gone, then start scary subtitle and sound
+      setTimeout(() => {
+        setScaryStage(1);
+        if (scaryRef.current) {
+          scaryRef.current.currentTime = 0;
+          scaryRef.current.play();
+          scaryRef.current.onended = () => {
+            setTimeout(() => setScaryStage(0), 2000);
+          };
+        }
+        setTimeout(() => setScaryStage(2), 1500);
+        setTimeout(() => setScaryStage(3), 3500); // 1.5 seconds after stage 2
+      }, 0);
+    }, 400); // fade duration
+  };
   // Default positions for tape and port
   const tapeStart = { left: '23%', top: '79%' };
   const port = { left: '50%', top: '77%' }; // near bottom edge of closed vhs
@@ -147,11 +180,40 @@ export default function VHSRoom() {
     }
   };
 
+  // Show 'Close the port' and play scary2.mp3 with 0.2s delay after tape_inside.png is displayed
+  React.useEffect(() => {
+    let closePortTimeout;
+    if (tapeInserted && !tapeInsideClicked) {
+      // Stop scary1.mp3 and remove its subtitle if still playing
+      if (scaryRef.current) {
+        scaryRef.current.pause();
+        scaryRef.current.currentTime = 0;
+      }
+      setScaryStage(0);
+      closePortTimeout = setTimeout(() => {
+        setShowClosePort(true);
+        if (scary2Ref.current) {
+          scary2Ref.current.currentTime = 0;
+          scary2Ref.current.play();
+        }
+      }, 1000);
+    } else {
+      setShowClosePort(false);
+      if (scary2Ref.current) {
+        scary2Ref.current.pause();
+        scary2Ref.current.currentTime = 0;
+      }
+    }
+    return () => {
+      clearTimeout(closePortTimeout);
+    };
+  }, [tapeInserted, tapeInsideClicked]);
+
   return (
     <div style={{
       minHeight: '100vh',
       width: '100vw',
-      background: `url('${bg}') center center / cover no-repeat`,
+      background: `url('${lightOn ? lightRoomBg : noLightRoomBg}') center center / cover no-repeat`,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -160,6 +222,73 @@ export default function VHSRoom() {
     }}>
       <audio ref={puttingInRef} src={puttingInAudio} preload="auto" />
       <audio ref={closingPortRef} src={closingPortAudio} preload="auto" />
+      <audio ref={lightSwitchRef} src={lightSwitchSound} preload="auto" />
+      <audio ref={scaryRef} src={scary1Audio} preload="auto" />
+      <audio ref={scary2Ref} src={scary2Audio} preload="auto" />
+      {overlayActive && !overlayFade && (
+        <div
+          onClick={handleOverlayClick}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: overlayFade ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,0.7)',
+            transition: 'background 0.4s',
+            zIndex: 2000,
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            pointerEvents: 'auto',
+          }}
+        >
+          <div
+            style={{
+              marginTop: '27vw',
+              color: '#F5C842',
+              fontFamily: 'Inter, Arial, Helvetica, Roboto, sans-serif',
+              fontWeight: 500,
+              fontSize: '2vw',
+              letterSpacing: '0.02em',
+              textAlign: 'center',
+              maxWidth: '90vw',
+              pointerEvents: 'none',
+              background: 'none',
+              border: 'none',
+              boxShadow: 'none',
+              padding: 0,
+              textShadow: '0 2px 6px #000, 0 0.5px 0 #000',
+              left: '8.5%',
+              position: 'relative',
+              transform: 'translateX(-50%)',
+            }}
+          >
+            Tap to enter the room
+          </div>
+        </div>
+      )}
+      {/* Light area overlay, user will adjust width/height/position later */}
+      <div
+        style={{
+          position: 'absolute',
+          left: '39%',
+          top: '1%',
+          width: '19%', // Wider clickable area
+          height: '11%',
+          cursor: 'pointer',
+          zIndex: 10,
+          // background: 'rgba(255,255,0,0.1)', // Uncomment for debug
+        }}
+        onClick={() => {
+          setLightOn((prev) => !prev);
+          if (lightSwitchRef.current) {
+            lightSwitchRef.current.currentTime = 0;
+            lightSwitchRef.current.play();
+          }
+        }}
+      />
       <img
         src={vhsImg}
         alt={tapeInsideClicked ? 'Closed VHS 2' : tapeInserted ? 'Tape Inserted' : hoveringPort ? 'Open VHS' : 'Closed VHS'}
@@ -204,6 +333,62 @@ export default function VHSRoom() {
           }}
           onClick={handleTapeInsideClick}
         />
+      )}
+      {tapeInserted && !tapeInsideClicked && showClosePort && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '10vw', // moved down
+            left: '50%',
+            transform: 'translateX(-50%)',
+            color: '#F5C842',
+            fontFamily: 'Inter, Arial, Helvetica, Roboto, sans-serif',
+            fontWeight: 500,
+            fontSize: '2vw',
+            letterSpacing: '0.02em',
+            lineHeight: 1.1,
+            textAlign: 'center',
+            zIndex: 1000,
+            maxWidth: '90vw',
+            pointerEvents: 'none',
+            background: 'none',
+            border: 'none',
+            boxShadow: 'none',
+            padding: 0,
+            textShadow: '0 2px 6px #000, 0 0.5px 0 #000',
+          }}
+        >
+          Close the port
+        </div>
+      )}
+      {!tapeInserted && !tapeInsideClicked && scaryStage > 0 && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '10vw', // moved down
+            left: '50%',
+            transform: 'translateX(-50%)',
+            color: '#F5C842',
+            fontFamily: 'Inter, Arial, Helvetica, Roboto, sans-serif',
+            fontWeight: 500,
+            fontSize: '2vw',
+            letterSpacing: '0.02em',
+            lineHeight: 1.1,
+            textAlign: 'center',
+            zIndex: 1000,
+            maxWidth: '90vw',
+            pointerEvents: 'none',
+            background: 'none',
+            border: 'none',
+            boxShadow: 'none',
+            padding: 0,
+            textShadow: '0 2px 6px #000, 0 0.5px 0 #000',
+          }}
+        >
+          {scaryStage === 1 && 'Welcome Edward'}
+          {scaryStage === 2 && 'you are the right age now'}
+          {scaryStage === 3 && 'feed the tape into the slot... slowly'}
+        </div>
       )}
     </div>
   );
