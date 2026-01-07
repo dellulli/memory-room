@@ -28,6 +28,9 @@ import redLaptopImg from './assets/main-page/objects/red_laptop.png';
 import handImg from './assets/main-page/objects/hand.png';
 import letterImg from './assets/main-page/objects/letter.png';
 import letterHandprintImg from './assets/main-page/objects/letter_handprint.png';
+import letterOpenWithMsgImg from './assets/main-page/objects/letter_open_with_msg.png';
+import letterOpenWithMsgRedImg from './assets/main-page/objects/letter_open_with_msg_red.png';
+import redHandprintImg from './assets/main-page/objects/red_handprint.png';
 import vhsTapeImg from './assets/main-page/objects/vhs_tape.png';
 import vhsTapeOpenImg from './assets/main-page/objects/vhs_tape_open.png';
 import lightSwitchSound from './assets/sounds/Light_Switch.mp3';
@@ -48,6 +51,9 @@ function MemoryRoom() {
     };
   }, []);
   const [lampOn, setLampOn] = useState(true);
+  const [letterOpened, setLetterOpened] = useState(false);
+  const [showLetterPopup, setShowLetterPopup] = useState(false);
+  const [redLetter, setRedLetter] = useState(false);
   const audioRef = useRef(null);
 
   const handleImageClick = (e) => {
@@ -60,7 +66,14 @@ function MemoryRoom() {
       y >= LAMP_AREA.y &&
       y <= LAMP_AREA.y + LAMP_AREA.height
     ) {
-      setLampOn((prev) => !prev);
+      setLampOn((prev) => {
+        const newLampOn = !prev;
+        // Reset letter state on lamp toggle
+        setLetterOpened(false);
+        setShowLetterPopup(false);
+        setRedLetter(!newLampOn); // If lamp is turning off, redLetter true; if on, false
+        return newLampOn;
+      });
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
         audioRef.current.play();
@@ -264,8 +277,16 @@ function MemoryRoom() {
       />
       {/* Letter: near bottom middle on coffee table to left */}
       <img
-        src={lampOn ? letterImg : letterHandprintImg}
-        alt={lampOn ? "Letter" : "Letter with Handprint"}
+        src={
+          letterOpened
+            ? (redLetter ? letterOpenWithMsgRedImg : letterOpenWithMsgImg)
+            : (lampOn ? letterImg : letterHandprintImg)
+        }
+        alt={
+          letterOpened
+            ? (redLetter ? "Opened Red Letter" : "Opened Letter")
+            : (lampOn ? "Letter" : "Letter with Handprint")
+        }
         style={{
           position: 'absolute',
           left: '39.6%',
@@ -274,8 +295,130 @@ function MemoryRoom() {
           transform: 'scale(0.8)',
           zIndex: 1,
           filter: 'brightness(0.78) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          if (!letterOpened) {
+            if (!lampOn) {
+              setRedLetter(true);
+            } else {
+              setRedLetter(false);
+            }
+            setLetterOpened(true);
+          } else {
+            setShowLetterPopup(true);
+          }
         }}
       />
+            {/* Letter popup overlay */}
+      {showLetterPopup && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0,0,0,0.55)',
+            zIndex: 100,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onClick={() => {
+            setShowLetterPopup(false);
+            setLetterOpened(false);
+            setRedLetter(false);
+          }}
+        >
+          <div
+            style={{
+              background: `url("/src/assets/main-page/objects/${redLetter ? 'letter_open_with_msg_red.png' : 'letter_open_with_msg.png'}") center/cover no-repeat, #f5ecd6`,
+              borderRadius: '18px',
+              boxShadow: '0 8px 32px 8px #0008',
+              padding: '48px 32px',
+              minWidth: '320px',
+              minHeight: '480px',
+              maxWidth: '90vw',
+              maxHeight: '90vh',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              border: '2px solid #d2b48c',
+              cursor: 'auto',
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <span
+              style={{
+                fontFamily: '"Special Elite", "Courier New", Courier, monospace',
+                fontSize: '1.5rem',
+                color: redLetter ? '#a11c1c' : '#3a2c13',
+                whiteSpace: 'pre-line',
+                textAlign: 'left',
+                letterSpacing: '0.04em',
+                lineHeight: 1.7,
+                marginBottom: '12px',
+                textShadow: redLetter ? '0 1px 0 #fff8, 0 2px 2px #a11c1c22' : '0 1px 0 #fff8, 0 2px 2px #0002',
+              }}
+            >
+              {`Dear Edward Papal\n\nHappy 20th birthday!\n Thank you for being my friend\n\nLove,\nDellulli`}
+            </span>
+            {/* Red handprint in popup bottom corner when lamp is off and red letter is open */}
+            {redLetter && (
+              <img
+                src={redHandprintImg}
+                alt="Red Handprint"
+                style={{
+                  position: 'absolute',
+                  right: -200,
+                  bottom: -150,
+                  width: 500,
+                  height: 'auto',
+                  opacity: 0.22,
+                  pointerEvents: 'none',
+                  zIndex: 2,
+                  filter: 'drop-shadow(0 2px 8px #a11c1c88)',
+                  transform: 'rotate(-18deg)',
+                }}
+              />
+            )}
+            <button
+              style={{
+                position: 'absolute',
+                top: 12,
+                right: 18,
+                background: 'transparent',
+                border: 'none',
+                width: 32,
+                height: 32,
+                fontSize: 20,
+                cursor: 'pointer',
+                color: redLetter ? '#a11c1c' : '#3a2c13',
+                fontWeight: 'bold',
+                padding: 0,
+                lineHeight: 1,
+                outline: 'none',
+                userSelect: 'none',
+              }}
+              onMouseDown={e => e.preventDefault()}
+              onClick={() => {
+                setShowLetterPopup(false);
+                setLetterOpened(false);
+                setRedLetter(false);
+              }}
+              aria-label="Close letter"
+              tabIndex={0}
+            >
+              ×
+            </button>
+            {/* Google Fonts for typewriter style */}
+            <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet" />
+          </div>
+        </div>
+      )}
       {/* VHS tape: right of coffee table */}
       <img
         src={lampOn ? vhsTapeImg : vhsTapeOpenImg}
