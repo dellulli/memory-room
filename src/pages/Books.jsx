@@ -218,6 +218,8 @@ export default function BooksLibrary() {
                 maxHeight: 340,
                 overflow: 'hidden',
                 whiteSpace: 'pre-line',
+                transform: 'rotate(180deg)',
+                display: 'inline-block',
               }}>{book.title}</span>
               {/* Decorative gold band */}
               <div style={{
