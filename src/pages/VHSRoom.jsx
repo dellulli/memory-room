@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 const lightRoomBg = `${import.meta.env.BASE_URL}assets/VHS/light_room.png`;
 const noLightRoomBg = `${import.meta.env.BASE_URL}assets/VHS/no_light_room.png`;
@@ -8,7 +8,11 @@ const vhsClosed = `${import.meta.env.BASE_URL}assets/VHS/close_vhs.png`;
 const vhsOpen = `${import.meta.env.BASE_URL}assets/VHS/open_vhs.png`;
 const vhsTapeInside = `${import.meta.env.BASE_URL}assets/VHS/tape_inside.png`;
 const vhsClosed2 = `${import.meta.env.BASE_URL}assets/VHS/close_vhs_2.png`;
-const horsingAroundVideo = `${import.meta.env.BASE_URL}assets/VHS/Horsing Around.mov`;
+// Use Google Drive direct download link for video
+// Original link: https://drive.google.com/file/d/1uSfF7igdkd_V6J25WWMre78-agmKhWKC/view?usp=drive_link
+// Direct link format: https://drive.google.com/uc?export=download&id=FILE_ID
+// Use YouTube embed link for video
+const horsingAroundVideo = "https://www.youtube.com/embed/yPfRxvwPSeo?autoplay=1&rel=0&modestbranding=1";
 const vhsSide = `${import.meta.env.BASE_URL}assets/VHS/vhs_tape.png`;
 const puttingInAudio = `${import.meta.env.BASE_URL}assets/VHS/putting_in.mp3`;
 const closingPortAudio = `${import.meta.env.BASE_URL}assets/VHS/closing_port.mp3`;
@@ -33,6 +37,7 @@ export default function VHSRoom() {
   const tapeRef = useRef(null);
   const tapeInsideRef = useRef(null);
   const horsingAroundRef = useRef(null);
+  const ytPlayerRef = useRef(null);
 
   // Handle overlay click to start experience
   const handleOverlayClick = () => {
@@ -180,15 +185,69 @@ export default function VHSRoom() {
     }
   };
 
-  // Play Horsing Around.mov when tapeInsideClicked becomes true
-  React.useEffect(() => {
-    if (tapeInsideClicked && horsingAroundRef.current) {
-      horsingAroundRef.current.currentTime = 0;
-      horsingAroundRef.current.play();
-    } else if (!tapeInsideClicked && horsingAroundRef.current) {
-      horsingAroundRef.current.pause();
-      horsingAroundRef.current.currentTime = 0;
+
+
+  // --- YouTube IFrame API logic to detect video end ---
+  useEffect(() => {
+    if (!tapeInsideClicked) return;
+
+    // Helper to create the player and handle end event
+    function createYTPlayer() {
+      if (ytPlayerRef.current) {
+        ytPlayerRef.current.destroy();
+        ytPlayerRef.current = null;
+      }
+      ytPlayerRef.current = new window.YT.Player('horsing-around-yt', {
+        events: {
+          'onStateChange': (event) => {
+            if (event.data === window.YT.PlayerState.ENDED) {
+              setTapeInsideClicked(false);
+              setTapeInserted(false);
+            }
+          }
+        }
+      });
     }
+
+    // Wait for iframe to be in DOM
+    const waitForIframe = () => {
+      const el = document.getElementById('horsing-around-yt');
+      if (el && window.YT && window.YT.Player) {
+        createYTPlayer();
+      } else {
+        setTimeout(waitForIframe, 100);
+      }
+    };
+
+    // Load YouTube IFrame API if not already loaded
+    if (!window.YT || !window.YT.Player) {
+      // Only add script if not present
+      if (!document.getElementById('yt-iframe-api')) {
+        const tag = document.createElement('script');
+        tag.id = 'yt-iframe-api';
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.body.appendChild(tag);
+      }
+      // Wait for API to load, then wait for iframe
+      const checkYTReady = () => {
+        if (window.YT && window.YT.Player) {
+          waitForIframe();
+        } else {
+          setTimeout(checkYTReady, 100);
+        }
+      };
+      checkYTReady();
+    } else {
+      waitForIframe();
+    }
+
+    // Cleanup: destroy player when unmounting or hiding
+    return () => {
+      if (ytPlayerRef.current && ytPlayerRef.current.destroy) {
+        ytPlayerRef.current.destroy();
+        ytPlayerRef.current = null;
+      }
+    };
   }, [tapeInsideClicked]);
 
   // Show 'Close the port' and play scary2.mp3 with 0.2s delay after tape_inside.png is displayed
@@ -236,42 +295,32 @@ export default function VHSRoom() {
       <audio ref={lightSwitchRef} src={lightSwitchSound} preload="auto" />
       <audio ref={scaryRef} src={scary1Audio} preload="auto" />
       <audio ref={scary2Ref} src={scary2Audio} preload="auto" />
-      {/* Visible video for Horsing Around.mov, will play automatically when tapeInsideClicked is true */}
-      <video
-        ref={horsingAroundRef}
-        src={horsingAroundVideo}
-        style={{
-          display: tapeInsideClicked ? 'block' : 'none',
-          position: 'fixed',
-          top: '50%',
-          left: '48.5%',
-          transform: 'translate(-50%, -50%) scale(0.4)',
-          zIndex: 3000,
-          maxWidth: '80vw',
-          maxHeight: '80vh',
-          background: '#000',
-          cursor: 'pointer',
-          boxShadow: '0 4px 32px #000',
-        }}
-        preload="auto"
-        controls={false}
-        autoPlay={false}
-        onClick={() => {
-          const vid = horsingAroundRef.current;
-          if (vid) {
-            if (vid.paused) {
-              vid.play();
-            } else {
-              vid.pause();
-            }
-          }
-        }}
-        onEnded={() => {
-          // Reset state so user can insert tape again
-          setTapeInsideClicked(false);
-          setTapeInserted(false);
-        }}
-      />
+      {/* Embedded YouTube video, shown when tapeInsideClicked is true */}
+      {tapeInsideClicked && (
+        <iframe
+          id="horsing-around-yt"
+          src={horsingAroundVideo}
+          title="Horsing Around"
+          style={{
+            display: 'block',
+            position: 'fixed',
+            top: '50%',
+            left: '48.5%',
+            transform: 'translate(-50%, -50%) scale(0.38) rotate(1.5deg)',
+            zIndex: 3000,
+            maxWidth: '80vw',
+            maxHeight: '80vh',
+            background: '#000',
+            boxShadow: '0 4px 32px #000',
+            border: 'none',
+            aspectRatio: '16/9',
+          }}
+          width="1280"
+          height="720"
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+        />
+      )}
       {overlayActive && !overlayFade && (
         <div
           onClick={handleOverlayClick}
