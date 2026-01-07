@@ -790,7 +790,7 @@ export default function Letterboxd() {
                         <span style={{ color: '#ff9210', fontSize: 24, marginLeft: 8 }}>♥</span>
                       </div>
                       <div style={{ fontFamily: 'Inter, Arial, sans-serif', color: '#abb7c2', fontSize: 20, marginBottom: 24, maxWidth: 600 }}>
-                        Even though he never bought me my sandals or dress, I still appreciate str4hm very much, he is the rick to my michonne. 1000/10 would relive our first meeting again. 
+                        Even though he never bought me my sandals or dress, I still appreciate str4hm very much, and he is the rick to my michonne. I would 1000/10 relive our first meeting again. 
                        <br />
                       <br />
                         Happy 42nd birthday str4hm! 
