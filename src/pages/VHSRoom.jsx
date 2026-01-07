@@ -8,6 +8,7 @@ const vhsClosed = `${import.meta.env.BASE_URL}assets/VHS/close_vhs.png`;
 const vhsOpen = `${import.meta.env.BASE_URL}assets/VHS/open_vhs.png`;
 const vhsTapeInside = `${import.meta.env.BASE_URL}assets/VHS/tape_inside.png`;
 const vhsClosed2 = `${import.meta.env.BASE_URL}assets/VHS/close_vhs_2.png`;
+const horsingAroundVideo = `${import.meta.env.BASE_URL}assets/VHS/Horsing Around.mov`;
 const vhsSide = `${import.meta.env.BASE_URL}assets/VHS/vhs_tape.png`;
 const puttingInAudio = `${import.meta.env.BASE_URL}assets/VHS/putting_in.mp3`;
 const closingPortAudio = `${import.meta.env.BASE_URL}assets/VHS/closing_port.mp3`;
@@ -31,6 +32,7 @@ export default function VHSRoom() {
   const [hoveringPort, setHoveringPort] = useState(false);
   const tapeRef = useRef(null);
   const tapeInsideRef = useRef(null);
+  const horsingAroundRef = useRef(null);
 
   // Handle overlay click to start experience
   const handleOverlayClick = () => {
@@ -43,9 +45,7 @@ export default function VHSRoom() {
         if (scaryRef.current) {
           scaryRef.current.currentTime = 0;
           scaryRef.current.play();
-          scaryRef.current.onended = () => {
-            setTimeout(() => setScaryStage(0), 2000);
-          };
+          // Do not auto-hide scaryStage after 2 seconds; let UI logic handle hiding
         }
         setTimeout(() => setScaryStage(2), 1500);
         setTimeout(() => setScaryStage(3), 3500); // 1.5 seconds after stage 2
@@ -180,6 +180,17 @@ export default function VHSRoom() {
     }
   };
 
+  // Play Horsing Around.mov when tapeInsideClicked becomes true
+  React.useEffect(() => {
+    if (tapeInsideClicked && horsingAroundRef.current) {
+      horsingAroundRef.current.currentTime = 0;
+      horsingAroundRef.current.play();
+    } else if (!tapeInsideClicked && horsingAroundRef.current) {
+      horsingAroundRef.current.pause();
+      horsingAroundRef.current.currentTime = 0;
+    }
+  }, [tapeInsideClicked]);
+
   // Show 'Close the port' and play scary2.mp3 with 0.2s delay after tape_inside.png is displayed
   React.useEffect(() => {
     let closePortTimeout;
@@ -225,6 +236,42 @@ export default function VHSRoom() {
       <audio ref={lightSwitchRef} src={lightSwitchSound} preload="auto" />
       <audio ref={scaryRef} src={scary1Audio} preload="auto" />
       <audio ref={scary2Ref} src={scary2Audio} preload="auto" />
+      {/* Visible video for Horsing Around.mov, will play automatically when tapeInsideClicked is true */}
+      <video
+        ref={horsingAroundRef}
+        src={horsingAroundVideo}
+        style={{
+          display: tapeInsideClicked ? 'block' : 'none',
+          position: 'fixed',
+          top: '50%',
+          left: '48.5%',
+          transform: 'translate(-50%, -50%) scale(0.4)',
+          zIndex: 3000,
+          maxWidth: '80vw',
+          maxHeight: '80vh',
+          background: '#000',
+          cursor: 'pointer',
+          boxShadow: '0 4px 32px #000',
+        }}
+        preload="auto"
+        controls={false}
+        autoPlay={false}
+        onClick={() => {
+          const vid = horsingAroundRef.current;
+          if (vid) {
+            if (vid.paused) {
+              vid.play();
+            } else {
+              vid.pause();
+            }
+          }
+        }}
+        onEnded={() => {
+          // Reset state so user can insert tape again
+          setTapeInsideClicked(false);
+          setTapeInserted(false);
+        }}
+      />
       {overlayActive && !overlayFade && (
         <div
           onClick={handleOverlayClick}
@@ -361,11 +408,41 @@ export default function VHSRoom() {
           Close the port
         </div>
       )}
-      {!tapeInserted && !tapeInsideClicked && scaryStage > 0 && (
+      {!tapeInserted && !tapeInsideClicked && (
+        (scaryStage === 1 || scaryStage === 2) && (
+          <div
+            style={{
+              position: 'fixed',
+              top: '10vw',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              color: '#F5C842',
+              fontFamily: 'Inter, Arial, Helvetica, Roboto, sans-serif',
+              fontWeight: 500,
+              fontSize: '2vw',
+              letterSpacing: '0.02em',
+              lineHeight: 1.1,
+              textAlign: 'center',
+              zIndex: 1000,
+              maxWidth: '90vw',
+              pointerEvents: 'none',
+              background: 'none',
+              border: 'none',
+              boxShadow: 'none',
+              padding: 0,
+              textShadow: '0 2px 6px #000, 0 0.5px 0 #000',
+            }}
+          >
+            {scaryStage === 1 && 'Welcome Edward'}
+            {scaryStage === 2 && 'you are the right age now'}
+          </div>
+        )
+      )}
+      {!tapeInserted && !tapeInsideClicked && scaryStage === 3 && (
         <div
           style={{
             position: 'fixed',
-            top: '10vw', // moved down
+            top: '10vw',
             left: '50%',
             transform: 'translateX(-50%)',
             color: '#F5C842',
@@ -385,9 +462,7 @@ export default function VHSRoom() {
             textShadow: '0 2px 6px #000, 0 0.5px 0 #000',
           }}
         >
-          {scaryStage === 1 && 'Welcome Edward'}
-          {scaryStage === 2 && 'you are the right age now'}
-          {scaryStage === 3 && 'feed the tape into the slot... slowly'}
+          feed the tape into the slot... slowly
         </div>
       )}
     </div>

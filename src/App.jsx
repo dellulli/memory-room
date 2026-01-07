@@ -10,32 +10,43 @@ const chatbotWindowRef = { current: null };
 import lampImg from './assets/main-page/lamp.png';
 import noLampImg from './assets/main-page/no_lamp.png';
 import feetFrameImg from './assets/main-page/objects/feet_frame.png';
+import feetFrameBiteImg from './assets/main-page/objects/feet_frame_bite.png';
 import chairImg from './assets/main-page/objects/chair.png';
+import chairPeachfuzzImg from './assets/main-page/objects/chair_peachfuzz.png';
 import booksImg from './assets/main-page/objects/books.png';
 import bookshelfImg from './assets/main-page/objects/bookshelf.png';
 import bannerImg from './assets/main-page/objects/banner.png';
+import bannerDarkImg from './assets/main-page/objects/banner_dark.png';
 import landlineImg from './assets/main-page/objects/landline.png';
+import landlineOffHookImg from './assets/main-page/objects/landline_off_hook.png';
 import { landlineJiggleKeyframes } from './landlineJiggle.js';
 // Add landline and hello audio refs
 const landlineAudio = new window.Audio(`${import.meta.env.BASE_URL}assets/main-page/landline.mp3`);
 const helloAudio = new window.Audio(`${import.meta.env.BASE_URL}assets/main-page/hello.mp3`);
 import laptopImg from './assets/main-page/objects/laptop.png';
+import redLaptopImg from './assets/main-page/objects/red_laptop.png';
+import handImg from './assets/main-page/objects/hand.png';
 import letterImg from './assets/main-page/objects/letter.png';
+import letterHandprintImg from './assets/main-page/objects/letter_handprint.png';
 import vhsTapeImg from './assets/main-page/objects/vhs_tape.png';
+import vhsTapeOpenImg from './assets/main-page/objects/vhs_tape_open.png';
 import lightSwitchSound from './assets/sounds/Light_Switch.mp3';
 
 const LAMP_AREA = { x: 60, y: 140, width: 120, height: 130 };
 
 
+
 function MemoryRoom() {
+  const [landlineHovered, setLandlineHovered] = useState(false);
+  const [laptopHovered, setLaptopHovered] = useState(false);
   const navigate = useNavigate();
-    // Prevent scrolling on main page only
-    useEffect(() => {
-      document.body.classList.add('no-scroll');
-      return () => {
-        document.body.classList.remove('no-scroll');
-      };
-    }, []);
+  // Prevent scrolling on main page only
+  useEffect(() => {
+    document.body.classList.add('no-scroll');
+    return () => {
+      document.body.classList.remove('no-scroll');
+    };
+  }, []);
   const [lampOn, setLampOn] = useState(true);
   const audioRef = useRef(null);
 
@@ -74,46 +85,47 @@ function MemoryRoom() {
           cursor: 'pointer',
         }}
         onClick={handleImageClick}
-      />
-      {/* Feet Frame: placeholder position, adjust as needed */}
-      <img
-        src={feetFrameImg}
-        alt="Feet Frame"
-        style={{
-          position: 'absolute',
-          left: '30%', // Adjust as needed
-          top: '20%',  // Adjust as needed
-          width: '7%',
-          zIndex: 2,
-          filter: 'brightness(0.8) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
-        }}
-      />
-      {/* Chair: same position and style */}
-      <img
-        src={chairImg}
-        alt="Chair"
-        style={{
-          position: 'absolute',
-          left: '73.4%', 
-          top: '55%',
-          width: '7.5%',
-          transform: 'scale(3)',
-          zIndex: 2,
-          filter: 'none',
-        }}
-      />
+        />
       {/* Banner: same position as books, behind bookshelf and books */}
       <img
-        src={bannerImg}
+        src={lampOn ? bannerImg : bannerDarkImg}
         alt="Banner"
         style={{
           position: 'absolute',
           left: '45%',
           top: '8%',
           width: '7%',
-          transform: 'scale(6)',
-          zIndex: 0.5,
+          transform: lampOn ? 'scale(6)' : 'scale(6)',
+          zIndex: 3,
           filter: 'brightness(0.9) drop-shadow(0 10px 16px rgba(0,0,0,0.3))',
+        }}
+      />
+      {/* Feet Frame: placeholder position, adjust as needed */}
+      <img
+        src={lampOn ? feetFrameImg : feetFrameBiteImg}
+        alt={lampOn ? "Feet Frame" : "Feet Frame Bite"}
+        style={{
+          position: 'absolute',
+          left: '30.45%', // Adjust as needed
+          top: '21.3%',  // Adjust as needed
+          width: '6%',
+          zIndex: 2,
+          filter: 'brightness(0.8) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
+        }}
+      />
+      {/* Chair: always visible, above bookshelf and books */}
+      <img
+        src={chairImg}
+        alt="Chair"
+        style={{
+          position: 'absolute',
+          left: '73.4%',
+          top: '54%',
+          width: '7.5%',
+          transform: 'scale(3)',
+          zIndex: 4, // Higher than bookshelf (1) and books (2)
+          filter: lampOn ? 'none' : 'brightness(0.5) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
+          pointerEvents: 'none',
         }}
       />
       <img
@@ -138,49 +150,103 @@ function MemoryRoom() {
           top: '39%',
           width: '7%',
           transform: 'scale(1.5)',
-          zIndex: 2,
+          zIndex: 3,
           filter: 'brightness(0.7) drop-shadow(0 10px 16px rgba(0,0,0,0.5))',
           cursor: 'pointer',
         }}
         onClick={() => window.open(`${import.meta.env.BASE_URL}books`, '_blank', 'noopener,noreferrer')}
       />
       {/* Landline: right of desk at bottom */}
-      <style>{landlineJiggleKeyframes + `\n@keyframes wave-bounce { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(2.2); } }`}</style>
+      <style>{`
+        ${landlineJiggleKeyframes.replace(/scale\([^)]*\)/g, '')}
+        @keyframes wave-bounce { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(2.2); } }
+      `}</style>
       {/* Sound waves overlay removed as requested */}
-      <img
-        src={landlineImg}
-        alt="Landline"
-        id="landline-img"
+      <div
+        id="landline-container"
         style={{
           position: 'absolute',
-          left: '68.5%',
-          top: '89%',
+          left: lampOn ? '68.5%' : '68%', // Move right when lamp is off
+          top: lampOn ? '89%' : '89%',    // Move down when lamp is off
           width: '6%',
+          height: 'calc(6% * 1.1)',
           transform: 'scale(3)',
           zIndex: 1,
-          filter: 'brightness(0.57) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
-          cursor: 'pointer',
         }}
-        onClick={async () => {
-          const landline = document.getElementById('landline-img');
-          if (!landline) return;
-          // Play audio 2x with pause, jiggle for each play
-          for (let i = 0; i < 2; i++) {
-            landlineAudio.currentTime = 0;
-            landline.style.animation = 'none';
-            void landline.offsetWidth;
-            landline.style.animation = `landline-jiggle 1s linear 1`;
-            await landlineAudio.play();
-            await new Promise(res => landlineAudio.onended = () => setTimeout(res, 1200));
-            landline.style.animation = '';
+      >
+        <div
+          id="landline-jiggle-wrap"
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'relative',
+            animation: undefined,
+          }}
+        >
+          <img
+            src={lampOn ? landlineImg : landlineOffHookImg}
+            alt={lampOn ? "Landline" : "Landline Off Hook"}
+            id="landline-img"
+            style={{
+              width: '100%',
+              height: '100%',
+              filter: 'brightness(0.57) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
+              cursor: 'pointer',
+              position: 'absolute',
+              left: 0,
+              top: 0,
+            }}
+            onClick={async () => {
+              const jiggleWrap = document.getElementById('landline-jiggle-wrap');
+              if (!jiggleWrap) return;
+              // Play audio 2x with pause, jiggle for each play
+              for (let i = 0; i < 2; i++) {
+                landlineAudio.currentTime = 0;
+                jiggleWrap.style.animation = 'none';
+                void jiggleWrap.offsetWidth;
+                jiggleWrap.style.animation = `landline-jiggle 1s linear 1`;
+                await landlineAudio.play();
+                await new Promise(res => landlineAudio.onended = () => setTimeout(res, 1200));
+                jiggleWrap.style.animation = '';
+              }
+              // After 2nd jiggle, open chatbot (no sound waves, no hello.mp3)
+              window.open(`${import.meta.env.BASE_URL}chatbot`, '_blank');
+            }}
+            onMouseEnter={() => setLandlineHovered(true)}
+            onMouseLeave={() => setLandlineHovered(false)}
+          />
+          {/* Flickering red dot overlay when lamp is off and hovered */}
+          {!lampOn && landlineHovered && (
+            <span
+              style={{
+                position: 'absolute',
+                right: '10%',
+                top: '18%',
+                width: '5%',
+                height: '8%',
+                borderRadius: '100%',
+                background: 'red',
+                boxShadow: '0 0 8px 2px #dd1c1cff',
+                animation: 'flicker-dot 1s infinite',
+                zIndex: 2,
+                pointerEvents: 'none',
+              }}
+            />
+          )}
+        </div>
+        <style>{`
+          @keyframes flicker-dot {
+            0%, 100% { opacity: 1; }
+            20% { opacity: 0.7; }
+            40% { opacity: 0.2; }
+            60% { opacity: 0.8; }
+            80% { opacity: 0.4; }
           }
-          // After 2nd jiggle, open chatbot (no sound waves, no hello.mp3)
-          window.open(`${import.meta.env.BASE_URL}chatbot`, '_blank');
-        }}
-      />
-      {/* Laptop: right of desk at bottom */}
+        `}</style>
+      </div>
+      {/* Laptop: right of desk at bottom, changes to red on hover when lamp is off */}
       <img
-        src={laptopImg}
+        src={!lampOn && laptopHovered ? redLaptopImg : laptopImg}
         alt="Laptop"
         style={{
           position: 'absolute',
@@ -193,11 +259,13 @@ function MemoryRoom() {
           cursor: 'pointer',
         }}
         onClick={() => window.open(`${import.meta.env.BASE_URL}letterboxd`, '_blank')}
+        onMouseEnter={() => setLaptopHovered(true)}
+        onMouseLeave={() => setLaptopHovered(false)}
       />
       {/* Letter: near bottom middle on coffee table to left */}
       <img
-        src={letterImg}
-        alt="Letter"
+        src={lampOn ? letterImg : letterHandprintImg}
+        alt={lampOn ? "Letter" : "Letter with Handprint"}
         style={{
           position: 'absolute',
           left: '39.6%',
@@ -210,8 +278,8 @@ function MemoryRoom() {
       />
       {/* VHS tape: right of coffee table */}
       <img
-        src={vhsTapeImg}
-        alt="VHS Tape"
+        src={lampOn ? vhsTapeImg : vhsTapeOpenImg}
+        alt={lampOn ? "VHS Tape" : "VHS Tape Open"}
         style={{
           position: 'absolute',
           left: '51%',

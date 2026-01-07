@@ -6,7 +6,7 @@
   ];
   // All other photos (excluding house images)
   const whiteboardPhotos = [
-    'whiteboard_1.png','whiteboard_2.png','whiteboard_3.webp','whiteboard_4.webp','whiteboard_5.webp','whiteboard_6.webp','whiteboard_7.webp','whiteboard_8.webp','whiteboard_9.webp','whiteboard_10.webp','whiteboard_11.webp','whiteboard_12.webp','whiteboard_13.webp','whiteboard_14.webp','whiteboard_15.webp','whiteboard_17.webp','whiteboard_18.webp','whiteboard_19.webp','whiteboard_20.webp','whiteboard_21.webp','whiteboard_22.webp','whiteboard_23.webp','whiteboard_24.webp','whiteboard_25.webp','whiteboard_26.webp','whiteboard_27.webp','whiteboard_28.webp','whiteboard_29.webp','whiteboard_30.webp','whiteboard_31.webp','whiteboard_32.webp','whiteboard_33.png','whiteboard_34.png','whiteboard_35.png','whiteboard_36.png','whiteboard_37.png'
+    'whiteboard_1.png','whiteboard_2.png','whiteboard_3.webp','whiteboard_4.webp','whiteboard_5.webp','whiteboard_6.webp','whiteboard_7.webp','whiteboard_8.webp','whiteboard_9.webp','whiteboard_10.webp','whiteboard_11.webp','whiteboard_12.webp','whiteboard_13.webp','whiteboard_14.webp','whiteboard_15.webp','whiteboard_17.webp','whiteboard_18.webp','whiteboard_19.webp','whiteboard_20.webp','whiteboard_21.webp','whiteboard_22.webp','whiteboard_23.webp','whiteboard_24.webp','whiteboard_25.webp','whiteboard_26.webp','whiteboard_27.webp','whiteboard_28.webp','whiteboard_29.webp','whiteboard_30.webp','whiteboard_31.webp','whiteboard_32.webp','whiteboard_33.png','whiteboard_34.png','whiteboard_35.png','whiteboard_36.png','whiteboard_37.png', 'whiteboard_38.png', 'whiteboard_39.png'
   ];
   const whiteboardVideos = [
     'whiteboardvid_1.mov','whiteboardvid_2.mov','whiteboardvid_3.mov'
@@ -51,6 +51,8 @@
     { type: 'image', name: 'whiteboard_6.webp' },
     { type: 'image', name: 'whiteboard_34.png' },
     { type: 'image', name: 'whiteboard_37.png' },
+    { type: 'image', name: 'whiteboard_38.webp' },
+    { type: 'image', name: 'whiteboard_39.png' },
     { type: 'image', name: 'whiteboard_1.png' },
   ];
   // Final whiteboard gallery: random order, then house images in order
