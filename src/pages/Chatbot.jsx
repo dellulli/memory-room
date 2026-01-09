@@ -748,43 +748,48 @@ CHATBOT
                   </h3>
                   <div style={{ padding: '12px', backgroundColor: '#1e1a19ff', borderRadius: '8px', fontSize: 14, lineHeight: 1.6 }}>
                     {memoryData.memorySummary && memoryData.memorySummary.trim() !== ''
-                      ? memoryData.memorySummary.split(/\n|\r|\r\n/).map((fact, idx, arr) => fact.trim() && (
-                        <div key={idx} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, borderBottom: idx < arr.length - 1 ? '1px solid #2a3a4a' : 'none', padding: '4px 0' }}>
-                          <span>{fact}</span>
-                          <button
-                            aria-label="Delete fact"
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              color: '#a6a1a1',
-                              fontSize: 16,
-                              cursor: 'pointer',
-                              marginLeft: 8,
-                              outline: 'none',
-                              boxShadow: 'none',
-                            }}
-                            onClick={async () => {
-                              if (!window.confirm('Are you sure you want to "Eternal Sunshine of the Spotless Mind" erase this memory from me? 🥺')) return;
-                              // Remove the fact from the summary and update backend
-                              const facts = memoryData.memorySummary.split(/\n|\r|\r\n/).filter((f, i) => i !== idx);
-                              const newSummary = facts.filter(f => f.trim()).join('\n');
-                              try {
-                                const response = await fetch(`${API_URL}/memory/fact`, {
-                                  method: 'DELETE',
-                                  headers: { 'Content-Type': 'application/json' },
-                                  body: JSON.stringify({ sessionId: conversationId, fact }),
-                                });
-                                if (!response.ok) throw new Error('Failed to delete fact');
-                                setMemoryData({ ...memoryData, memorySummary: newSummary });
-                              } catch (error) {
-                                alert('Failed to delete fact: ' + error.message);
-                              }
-                            }}
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ))
+                      ? memoryData.memorySummary.split(/\n|\r|\r\n/).map((fact, idx, arr) => {
+                          const replacedFact = fact.replace(/luke/gi, 'Bae');
+                          return fact.trim() && (
+                            <div key={idx} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, borderBottom: idx < arr.length - 1 ? '1px solid #2a3a4a' : 'none', padding: '4px 0' }}>
+                              <span>{replacedFact}</span>
+                              <button
+                                aria-label="Delete fact"
+                                style={{
+                                  background: 'none',
+                                  border: 'none',
+                                  color: '#a6a1a1',
+                                  fontSize: 16,
+                                  cursor: 'pointer',
+                                  marginLeft: 8,
+                                  outline: 'none',
+                                  boxShadow: 'none',
+                                }}
+                                onClick={async () => {
+                                  if (!window.confirm('Are you sure you want to "Eternal Sunshine of the Spotless Mind" erase this memory from me? 🥺')) return;
+                                  // Remove the fact from the summary and update backend
+                                  const facts = memoryData.memorySummary.split(/\n|\r|\r\n/).filter((f, i) => i !== idx);
+                                  const newSummary = facts.filter(f => f.trim()).join('\n');
+                                  // Replace 'luke' with 'bae' before sending to backend
+                                  const replacedFact = fact.replace(/luke/gi, 'Bae');
+                                  try {
+                                    const response = await fetch(`${API_URL}/memory/fact`, {
+                                      method: 'DELETE',
+                                      headers: { 'Content-Type': 'application/json' },
+                                      body: JSON.stringify({ sessionId: conversationId, fact: replacedFact }),
+                                    });
+                                    if (!response.ok) throw new Error('Failed to delete fact');
+                                    setMemoryData({ ...memoryData, memorySummary: newSummary });
+                                  } catch (error) {
+                                    alert('Failed to delete fact: ' + error.message);
+                                  }
+                                }}
+                              >
+                                ×
+                              </button>
+                            </div>
+                          );
+                        })
                       : <span>(no memories yet, lets talk so we can create some 😉)</span>
                     }
                   </div>
