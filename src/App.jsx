@@ -336,11 +336,11 @@ function MemoryRoom() {
               background: `url("/src/assets/main-page/objects/${redLetter ? 'letter_open_with_msg_red.png' : 'letter_open_with_msg.png'}") center/cover no-repeat, #f5ecd6`,
               borderRadius: '18px',
               boxShadow: '0 8px 32px 8px #0008',
-              padding: '48px 32px',
-              minWidth: '320px',
-              minHeight: '480px',
-              maxWidth: '90vw',
-              maxHeight: '90vh',
+              padding: '40px 32px 24px 32px',
+              minWidth: '200px',
+              minHeight: '360px',
+              maxWidth: '70vw',
+              maxHeight: '80vh',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -354,17 +354,17 @@ function MemoryRoom() {
             <span
               style={{
                 fontFamily: '"Special Elite", "Courier New", Courier, monospace',
-                fontSize: '1.5rem',
+                fontSize: '1.1rem',
                 color: redLetter ? '#a11c1c' : '#3a2c13',
                 whiteSpace: 'pre-line',
                 textAlign: 'left',
                 letterSpacing: '0.04em',
-                lineHeight: 1.7,
-                marginBottom: '12px',
+                lineHeight: 1.8,
+                marginBottom: '8px',
                 textShadow: redLetter ? '0 1px 0 #fff8, 0 2px 2px #a11c1c22' : '0 1px 0 #fff8, 0 2px 2px #0002',
               }}
             >
-              {`Dear Edward Papal\n\nHappy 20th birthday!\n Thank you for being my friend\n\nLove,\nDellulli`}
+              {`Sam’s Club couch never seems to age.\nIt’s reliable, it’s trustworthy, it could even hold my mum’s weight.\n\nEven when I sit and complain all day, the Sam’s Club couch doesn’t go away.\nI can spill all the tea I want, it never leaves a stain.\nAnd especially when my mum’s causing me shit, the couch is where I go again.\n\nThe Sam’s Club couch has expanded my world,\nI sit with it through films and shows I never would’ve known.\n\nAnd even if the Sam’s Club couch gets dirty sometimes,\nfrom Leanne’s pasta or Bean’s snot,\nit’s still there, keeping me company while I keep dying on Roblox.\n\nThen you realise this was never about the couch,\nbut about the friend who was always there, sitting next to me throughout.\n\nTwenty looks good on you.\nHappy Birthday Edward Papal!`}
             </span>
             {/* Red handprint in popup bottom corner when lamp is off and red letter is open */}
             {redLetter && (
