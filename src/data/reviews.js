@@ -56,6 +56,7 @@ export const reviews = [
     title: "Poop Besties: Vol. 2",
     year: 2007,
     quote: "thats true but poop besties actually stands for:<br><strong>P</strong>ee<br><strong>O</strong>nly with me<br><strong>O</strong>nly<br><strong>P</strong>oop with me",
+    stars: 10,
     heart: true,
     quoted: "14 March 2025",
     user: "dellulli",
