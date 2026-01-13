@@ -2,11 +2,8 @@
 import { useRef, useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Letterboxd from './pages/Letterboxd.jsx';
-import Chatbot from './pages/Chatbot.jsx';
 import BooksLibrary from './pages/Books.jsx';
 import VHSRoom from './pages/VHSRoom.jsx';
-// For controlling Chatbot music from MemoryRoom
-const chatbotWindowRef = { current: null };
 import lampImg from './assets/main-page/lamp.png';
 import noLampImg from './assets/main-page/no_lamp.png';
 import feetFrameImg from './assets/main-page/objects/feet_frame.png';
@@ -223,7 +220,7 @@ function MemoryRoom() {
                 jiggleWrap.style.animation = '';
               }
               // After 2nd jiggle, open chatbot (no sound waves, no hello.mp3)
-              window.open(`${import.meta.env.BASE_URL}chatbot`, '_blank');
+             window.open('https://michonne-chatbot.onrender.com', '_blank');
             }}
             onMouseEnter={() => setLandlineHovered(true)}
             onMouseLeave={() => setLandlineHovered(false)}
@@ -458,7 +455,6 @@ export default function App() {
   return (
     <Routes>
       <Route path="/letterboxd" element={<Letterboxd />} />
-      <Route path="/chatbot" element={<Chatbot ref={chatbotRef} />} />
       <Route path="/books" element={<BooksLibrary />} />
       <Route path="/vhs" element={<VHSRoom />} />
       <Route path="/*" element={<MemoryRoom />} />
