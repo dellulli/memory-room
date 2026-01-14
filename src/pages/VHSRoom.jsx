@@ -39,6 +39,20 @@ export default function VHSRoom() {
   const horsingAroundRef = useRef(null);
   const ytPlayerRef = useRef(null);
 
+  // Preload VHS assets
+  useEffect(() => {
+    const imagesToPreload = [
+      vhsClosed2,
+      vhsOpen,
+      vhsTapeInside,
+    ];
+    
+    imagesToPreload.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
   // Handle overlay click to start experience
   const handleOverlayClick = () => {
     setOverlayFade(true);
