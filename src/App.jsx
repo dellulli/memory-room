@@ -47,6 +47,37 @@ function MemoryRoom() {
       document.body.classList.remove('no-scroll');
     };
   }, []);
+
+  // Preload lights-off assets and letter styles
+  useEffect(() => {
+    // Preload images
+    const imagesToPreload = [
+      noLampImg,
+      letterHandprintImg,
+      letterOpenWithMsgImg,
+      letterOpenWithMsgRedImg,
+      redHandprintImg,
+    ];
+    
+    imagesToPreload.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+
+    // Preload Google Font for letter popup
+    const link = document.createElement('link');
+    link.href = 'https://fonts.googleapis.com/css2?family=Special+Elite&display=swap';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
+    return () => {
+      // Cleanup: remove font link on unmount
+      if (link.parentNode) {
+        link.parentNode.removeChild(link);
+      }
+    };
+  }, []);
+
   const [lampOn, setLampOn] = useState(true);
   const [letterOpened, setLetterOpened] = useState(false);
   const [showLetterPopup, setShowLetterPopup] = useState(false);
