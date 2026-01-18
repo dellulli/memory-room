@@ -320,6 +320,23 @@ export default function Letterboxd() {
   const [liked, setLiked] = useState(false);
   const [reviewPage, setReviewPage] = useState(0); // 0: first review, 1: second review
   const [galleryMode, setGalleryMode] = useState(false);
+
+  // Load liked status from localStorage when activePosterIdx changes
+  React.useEffect(() => {
+    if (activePosterIdx !== null) {
+      const likedPosters = JSON.parse(localStorage.getItem('likedPosters') || '{}');
+      setLiked(likedPosters[activePosterIdx] || false);
+    }
+  }, [activePosterIdx]);
+
+  // Save liked status to localStorage when it changes
+  React.useEffect(() => {
+    if (activePosterIdx !== null) {
+      const likedPosters = JSON.parse(localStorage.getItem('likedPosters') || '{}');
+      likedPosters[activePosterIdx] = liked;
+      localStorage.setItem('likedPosters', JSON.stringify(likedPosters));
+    }
+  }, [liked, activePosterIdx]);
   // For gallery popup modal
   const marianneImages = [
     'marianne_1.png',
