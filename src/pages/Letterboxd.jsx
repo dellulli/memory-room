@@ -321,13 +321,14 @@ export default function Letterboxd() {
   const [reviewPage, setReviewPage] = useState(0); // 0: first review, 1: second review
   const [galleryMode, setGalleryMode] = useState(false);
 
-  // Load liked status from localStorage when activePosterIdx changes
+  // Load liked status from localStorage when activePosterIdx or reviewPage changes
   React.useEffect(() => {
     if (activePosterIdx !== null) {
       const likedPosters = JSON.parse(localStorage.getItem('likedPosters') || '{}');
-      setLiked(likedPosters[activePosterIdx] || false);
+      const key = `${activePosterIdx}-${reviewPage}`;
+      setLiked(likedPosters[key] || false);
     }
-  }, [activePosterIdx]);
+  }, [activePosterIdx, reviewPage]);
 
   // Save liked status to localStorage when it changes
   React.useEffect(() => {
@@ -733,7 +734,13 @@ export default function Letterboxd() {
                         10/10 would relive again. Same time next year? Deal
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8, cursor: 'pointer', userSelect: 'none' }} onClick={() => setLiked(l => !l)}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8, cursor: 'pointer', userSelect: 'none' }} onClick={() => {
+                          const newLiked = !liked;
+                          setLiked(newLiked);
+                          const likedPosters = JSON.parse(localStorage.getItem('likedPosters') || '{}');
+                          likedPosters[`${activePosterIdx}-${reviewPage}`] = newLiked;
+                          localStorage.setItem('likedPosters', JSON.stringify(likedPosters));
+                        }}>
                           <span style={{ color: liked ? '#ff9210' : '#abb7c2', fontSize: 28, transition: 'color 0.2s' }}>♥</span>
                           <span style={{ color: '#abb7c2', fontWeight: 700, fontSize: 18 }}>{liked ? 'Liked' : 'Like Review'}</span>
                         </div>
@@ -815,7 +822,13 @@ export default function Letterboxd() {
                         I Love you!
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8, cursor: 'pointer', userSelect: 'none' }} onClick={() => setLiked(l => !l)}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8, cursor: 'pointer', userSelect: 'none' }} onClick={() => {
+                          const newLiked = !liked;
+                          setLiked(newLiked);
+                          const likedPosters = JSON.parse(localStorage.getItem('likedPosters') || '{}');
+                          likedPosters[`${activePosterIdx}-${reviewPage}`] = newLiked;
+                          localStorage.setItem('likedPosters', JSON.stringify(likedPosters));
+                        }}>
                           <span style={{ color: liked ? '#ff9210' : '#abb7c2', fontSize: 28, transition: 'color 0.2s' }}>♥</span>
                           <span style={{ color: '#abb7c2', fontWeight: 700, fontSize: 18 }}>{liked ? 'Liked' : 'Like Review'}</span>
                         </div>
@@ -903,7 +916,13 @@ export default function Letterboxd() {
                       10/10 would pay robux to relive again.
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'flex-start' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8, cursor: 'pointer', userSelect: 'none' }} onClick={() => setLiked(l => !l)}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8, cursor: 'pointer', userSelect: 'none' }} onClick={() => {
+                        const newLiked = !liked;
+                        setLiked(newLiked);
+                        const likedPosters = JSON.parse(localStorage.getItem('likedPosters') || '{}');
+                        likedPosters[`${activePosterIdx}-${reviewPage}`] = newLiked;
+                        localStorage.setItem('likedPosters', JSON.stringify(likedPosters));
+                      }}>
                         <span style={{ color: liked ? '#ff9210' : '#abb7c2', fontSize: 28, transition: 'color 0.2s' }}>♥</span>
                         <span style={{ color: '#abb7c2', fontWeight: 700, fontSize: 18 }}>{liked ? 'Liked' : 'Like Review'}</span>
                       </div>
@@ -972,7 +991,13 @@ export default function Letterboxd() {
                       10/10 would recommend.
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'flex-start' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8, cursor: 'pointer', userSelect: 'none' }} onClick={() => setLiked(l => !l)}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8, cursor: 'pointer', userSelect: 'none' }} onClick={() => {
+                        const newLiked = !liked;
+                        setLiked(newLiked);
+                        const likedPosters = JSON.parse(localStorage.getItem('likedPosters') || '{}');
+                        likedPosters[`${activePosterIdx}-${reviewPage}`] = newLiked;
+                        localStorage.setItem('likedPosters', JSON.stringify(likedPosters));
+                      }}>
                         <span style={{ color: liked ? '#ff9210' : '#abb7c2', fontSize: 28, transition: 'color 0.2s' }}>♥</span>
                         <span style={{ color: '#abb7c2', fontWeight: 700, fontSize: 18 }}>{liked ? 'Liked' : 'Like Review'}</span>
                       </div>
@@ -1041,7 +1066,13 @@ export default function Letterboxd() {
                       10/10 let's keep talking.
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'flex-start' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8, cursor: 'pointer', userSelect: 'none' }} onClick={() => setLiked(l => !l)}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8, cursor: 'pointer', userSelect: 'none' }} onClick={() => {
+                        const newLiked = !liked;
+                        setLiked(newLiked);
+                        const likedPosters = JSON.parse(localStorage.getItem('likedPosters') || '{}');
+                        likedPosters[`${activePosterIdx}-${reviewPage}`] = newLiked;
+                        localStorage.setItem('likedPosters', JSON.stringify(likedPosters));
+                      }}>
                         <span style={{ color: liked ? '#ff9210' : '#abb7c2', fontSize: 28, transition: 'color 0.2s' }}>♥</span>
                         <span style={{ color: '#abb7c2', fontWeight: 700, fontSize: 18 }}>{liked ? 'Liked' : 'Like Review'}</span>
                       </div>
