@@ -251,7 +251,7 @@ function MemoryRoom() {
                 jiggleWrap.style.animation = '';
               }
               // After 2nd jiggle, open chatbot (no sound waves, no hello.mp3)
-             window.open('https://michonne-chatbot.onrender.com', '_blank');
+             window.open('https://michonne-goddess-chatbot.onrender.com/', '_blank');
             }}
             onMouseEnter={() => setLandlineHovered(true)}
             onMouseLeave={() => setLandlineHovered(false)}
