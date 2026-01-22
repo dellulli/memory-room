@@ -57,6 +57,8 @@ function MemoryRoom() {
       letterOpenWithMsgImg,
       letterOpenWithMsgRedImg,
       redHandprintImg,
+      feetFrameBiteImg,
+      redLaptopImg,
     ];
     
     imagesToPreload.forEach(src => {
