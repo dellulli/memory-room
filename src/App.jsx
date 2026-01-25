@@ -301,7 +301,7 @@ function MemoryRoom() {
           filter: 'brightness(0.65) drop-shadow(0 4px 16px rgba(0,0,0,0.5))',
           cursor: 'pointer',
         }}
-        onClick={() => window.open(`${import.meta.env.BASE_URL}letterboxd`, '_blank')}
+        onClick={() => window.open('https://dellulli.github.io/windows_laptop/', '_blank')}
         onMouseEnter={() => setLaptopHovered(true)}
         onMouseLeave={() => setLaptopHovered(false)}
       />
